@@ -179,8 +179,10 @@ CREATE TABLE `estabelecimento` (
   UNIQUE KEY `estabelecimento_id_uindex` (`id`),
   KEY `estabelecimento_tipo_estabelecimento_id_fk` (`id_tipo_estabelecimento`),
   KEY `estabelecimento_cidade_id_fk` (`id_cidade`),
+  KEY `estabelecimento_tipo_logradouro_id_fk` (`id_tipo_logradouro`),
   CONSTRAINT `estabelecimento_cidade_id_fk` FOREIGN KEY (`id_cidade`) REFERENCES `cidade` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `estabelecimento_tipo_estabelecimento_id_fk` FOREIGN KEY (`id_tipo_estabelecimento`) REFERENCES `tipo_estabelecimento` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `estabelecimento_tipo_estabelecimento_id_fk` FOREIGN KEY (`id_tipo_estabelecimento`) REFERENCES `tipo_estabelecimento` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `estabelecimento_tipo_logradouro_id_fk` FOREIGN KEY (`id_tipo_logradouro`) REFERENCES `tipo_logradouro` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -261,11 +263,14 @@ CREATE TABLE `preco` (
   `id_tipo_preco` bigint(20) NOT NULL,
   `id_usuario` bigint(20) NOT NULL,
   `id_produto` bigint(20) NOT NULL,
+  `id_estabelecimento` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `preco_id_uindex` (`id`),
   KEY `preco_usuario_id_fk` (`id_usuario`),
   KEY `preco_produto_id_fk` (`id_produto`),
   KEY `preco_tipo_preco_id_fk` (`id_tipo_preco`),
+  KEY `preco_estabelecimento_id_fk` (`id_estabelecimento`),
+  CONSTRAINT `preco_estabelecimento_id_fk` FOREIGN KEY (`id_estabelecimento`) REFERENCES `estabelecimento` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `preco_produto_id_fk` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `preco_tipo_preco_id_fk` FOREIGN KEY (`id_tipo_preco`) REFERENCES `tipo_preco` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `preco_usuario_id_fk` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -329,7 +334,10 @@ CREATE TABLE `produto_tem_propriedade` (
   `id_produto` bigint(20) NOT NULL,
   `id_propriedade` bigint(20) NOT NULL,
   `valor` varchar(50) NOT NULL,
-  PRIMARY KEY (`id_propriedade`)
+  PRIMARY KEY (`id_propriedade`),
+  KEY `produto_tem_propriedade_produto_id_fk` (`id_produto`),
+  CONSTRAINT `produto_tem_propriedade_produto_id_fk` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `produto_tem_propriedade_propriedade_id_fk` FOREIGN KEY (`id_propriedade`) REFERENCES `propriedade` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -563,4 +571,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-03 16:15:58
+-- Dump completed on 2017-07-03 19:40:11
