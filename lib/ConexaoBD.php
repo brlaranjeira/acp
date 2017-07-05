@@ -9,7 +9,7 @@
 class ConexaoBD {
 
     public static function getConexao() {
-        require_once ("ConfigClass.php");
+        require_once ( __DIR__ . "/./ConfigClass.php");
         try {
             return new PDO('mysql:host=' . ConfigClass::bdHost . ';dbname=' . ConfigClass::bdName . ';charset=' . ConfigClass::bdCharset,ConfigClass::bdUser,ConfigClass::bdPasswd);
         } catch (Exception $e) {

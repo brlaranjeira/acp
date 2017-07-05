@@ -63,7 +63,7 @@ abstract class EntidadeAbstrata {
         /**
          * inicializa
          */
-        require_once ("ConexaoBD.php");
+        require_once (__DIR__ . "/../ConexaoBD.php");
         $clazz = get_called_class();
         if ($listType==self::BLACK_LIST) {
             $subDicionario = $clazz::$dicionario;
@@ -283,7 +283,7 @@ abstract class EntidadeAbstrata {
      * @return EntidadeAbstrata[]
      */
     public static function getAll() {
-        require_once("ConexaoBD.php");
+        require_once (__DIR__ . "/../lib/ConexaoBD.php");
         $clazz = get_called_class();
         $sql = 'SELECT * from ' . $clazz::$tbName;
         $statement = ConexaoBD::getConexao()->prepare($sql);
@@ -303,7 +303,7 @@ abstract class EntidadeAbstrata {
 
 
     public static function getByAttr($attrs , $values, $operators = '=' ) {
-        require_once("ConexaoBD.php");
+        require_once (__DIR__ . "/../lib/ConexaoBD.php");
         $operators = is_array($operators) ? $operators : array($operators);
         $clazz = get_called_class();
         $sql = 'SELECT * from ' . $clazz::$tbName;
@@ -357,7 +357,6 @@ abstract class EntidadeAbstrata {
             $statement = ConexaoBD::getConexao()->prepare($sql);
             $statement->execute(array($id));
             $linhas = $statement->fetchAll();
-            //require_once ($v['clEntityName'] . '.php');
             $objArray = array();
             foreach ($linhas as $linha) {
                 $cls = $v['clEntityName'];
