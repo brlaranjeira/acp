@@ -31,12 +31,12 @@ abstract class EntidadeAbstrata {
     protected static $hasMany = array();
     /**
      * @var array elementos necessarios em cada elemento
+     *   clEntityName ( nome da classe da outra entidade ),
+     *   tbForeignKey ( id que representa a outra tabela nesta tabela ( foreign key )
      */
     protected static $hasOne = array();
     /**
      * @var array nomes dos metodos getters para os objetos
-     *   clEntityName ( nome da classe da outra entidade ),
-     *   tbForeignKey ( id que representa a outra tabela nesta tabela ( foreign key )
      */
     protected static $getters = array();
 
@@ -324,7 +324,7 @@ abstract class EntidadeAbstrata {
         foreach ($rows as $row) {
             $objects[] = self::rowToObject( $row, $clazz );
         }
-        return $objects;
+        return sizeof($objects) > 0 ? $objects : null;
     }
 
     private static function rowToObject( $row, $clazz ) {
@@ -388,6 +388,7 @@ abstract class EntidadeAbstrata {
          */
         foreach ( $clazz::$hasOne as $k => $v ) {
             $cls = $v['clEntityName'];
+            require_once (__DIR__ . '/' . $cls . '.php');
             $obj = $cls::getById($row[$v['tbForeignKey']]);
             $setter = self::getSetter($k);
             $object->$setter($obj);
