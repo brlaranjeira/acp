@@ -18,6 +18,7 @@ class ConfigClass {
     //const bdUser = 'acp';
     const bdUser = 'root';
 
+    //const bdCharset = 'latin1';
     const bdCharset = 'utf8';
 
     //const bdPasswd = '12345';
@@ -25,7 +26,7 @@ class ConfigClass {
 
     const imagesDirectory = 'images/';
 
-    const pw_iter = 30000;
+    const pw_iter = 50000;
 
     const pw_algo = 'sha256';
 

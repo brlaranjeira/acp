@@ -63,7 +63,7 @@ abstract class EntidadeAbstrata {
         /**
          * inicializa
          */
-        require_once (__DIR__ . "/../ConexaoBD.php");
+        require_once (__DIR__ . "/../lib/ConexaoBD.php");
         $clazz = get_called_class();
         if ($listType==self::BLACK_LIST) {
             $subDicionario = $clazz::$dicionario;
@@ -94,12 +94,10 @@ abstract class EntidadeAbstrata {
             $getter = self::getGetter($k);
             $setter = self::getSetter($k);
             $obj = $this->$getter();
-            if (!$obj->save($conexao,false)) {
+            if ($obj != null && !$obj->save($conexao,false)) {
                 $conexao->rollBack();
             }
-
             $this->$setter($obj);
-            echo '';
         }
 
         /**
@@ -400,7 +398,7 @@ abstract class EntidadeAbstrata {
         return $object;
     }
 
-    public function asJSON( $extraAttrs ) {
+    public function asJSON( $extraAttrs =array()) {
         $clazz = get_called_class();
         $json = '{ "id":"'.$this->id.'"';
 
