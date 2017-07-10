@@ -57,6 +57,10 @@ class Usuario extends EntidadeAbstrata {
     }
 
     public static function auth($login, $passwd) {
+    	$usuario = Usuario::getByAttr('login',$login);
+    	if (!isset($usuario)) {
+		    return false;
+	    }
         $sql = 'SELECT id, prenome, sobrenome, iteracoes,passwd,salt,id_tipo FROM usuario WHERE login = ?';
         require_once (__DIR__ . "/../lib/ConexaoBD.php");
         $conn = ConexaoBD::getConexao();
